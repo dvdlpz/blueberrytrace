@@ -37,7 +37,7 @@ git config user.email "angellopezcoes@gmail.com"
 Agregar solo archivos base:
 
 ```bash
-git add .gitattributes .gitignore README.md pom.xml mvnw mvnw.cmd .mvn script_bd_blueberrytrace.sql MYSQL_CONEXION_NOTA.txt
+git add .gitignore README.md pom.xml script_bd_blueberrytrace.sql
 git add src/main/java/com/keraune/vlvblueberrysystem/VlvBlueberrySystemApplication.java
 git add src/main/resources/application.properties
 git commit -m "feat: agregar estructura base del proyecto Spring Boot"

@@ -4,6 +4,16 @@
 
 Este repositorio fue organizado para el **Avance 2 del curso Herramientas de Desarrollo**. Por eso, además del código fuente, incluye evidencias de uso de Git, GitHub, ramas, issues, pull requests, integración continua y documentación técnica.
 
+## Relación con el informe APF2
+
+El proyecto implementa la propuesta descrita en el informe:
+
+- Sistema web para trazabilidad de arándanos.
+- Arquitectura MVC con Spring Boot, Thymeleaf, Spring Data JPA y MySQL.
+- Módulos de usuarios, lotes, camas, procesos productivos, reportes y auditoría.
+- Flujo de trabajo colaborativo usando GitHub Flow.
+- Soporte documental para evidenciar ramas, commits, PRs, issues, CI/CD y despliegue.
+
 ## Módulos principales
 
 | Módulo | Estado | Descripción |
@@ -97,16 +107,16 @@ DB_PASSWORD=12345678
 
 ## Ejecución
 
-Con Maven Wrapper:
+Con Maven instalado:
 
 ```bash
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
-En Windows:
+También puedes ejecutar el empaquetado usado por GitHub Actions:
 
 ```bash
-mvnw.cmd spring-boot:run
+mvn -DskipTests package
 ```
 
 Abrir en el navegador:
