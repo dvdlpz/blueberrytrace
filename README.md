@@ -125,6 +125,17 @@ Abrir en el navegador:
 http://localhost:8080
 ```
 
+
+## Ejecución con Docker
+
+Con Docker Desktop activo, se puede levantar MySQL y la aplicación con:
+
+```bash
+docker compose up --build
+```
+
+El archivo `docker-compose.yml` incluye una verificación de salud para MySQL, de modo que la aplicación espere a que la base de datos esté disponible antes de iniciar.
+
 ## Credenciales iniciales
 
 El inicializador crea un usuario administrador si no existe:

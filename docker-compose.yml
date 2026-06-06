@@ -9,12 +9,19 @@ services:
       - "3306:3306"
     volumes:
       - blueberrytrace_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p12345678"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
   app:
     build: .
     container_name: blueberrytrace-app
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
     environment:
       DB_URL: jdbc:mysql://mysql:3306/vlv_blueberry_system?useSSL=false&serverTimezone=America/Lima&allowPublicKeyRetrieval=true
       DB_USERNAME: root

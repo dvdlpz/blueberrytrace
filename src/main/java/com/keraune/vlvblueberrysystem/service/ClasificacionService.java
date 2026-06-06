@@ -21,13 +21,15 @@ public class ClasificacionService {
     private final LoteRepository loteRepository;
     private final CamaRepository camaRepository;
     private final UserRepository userRepository;
+    private final AuditoriaService auditoriaService;
 
     public ClasificacionService(ClasificacionRepository clasificacionRepository, LoteRepository loteRepository,
-                                CamaRepository camaRepository, UserRepository userRepository) {
+                                CamaRepository camaRepository, UserRepository userRepository, AuditoriaService auditoriaService) {
         this.clasificacionRepository = clasificacionRepository;
         this.loteRepository = loteRepository;
         this.camaRepository = camaRepository;
         this.userRepository = userRepository;
+        this.auditoriaService = auditoriaService;
     }
 
     @Transactional(readOnly = true)
@@ -53,6 +55,7 @@ public class ClasificacionService {
         clasificacion.setEstado(normalizarEstado(form.getEstado(), "PENDIENTE"));
         clasificacion.setUsuarioRegistro(usuario);
         clasificacionRepository.save(clasificacion);
+        auditoriaService.registrar("Clasificación", "Crear clasificación", "Se registró clasificación para el invernadero " + lote.getCodigo());
     }
 
     @Transactional
@@ -61,6 +64,7 @@ public class ClasificacionService {
                 .orElseThrow(() -> new IllegalArgumentException("No se encontró la clasificación solicitada."));
         clasificacion.setEstado(normalizarEstado(nuevoEstado, "PENDIENTE"));
         clasificacionRepository.save(clasificacion);
+        auditoriaService.registrar("Clasificación", "Cambiar estado", "Se cambió el estado de la clasificación #" + clasificacion.getId() + " a " + clasificacion.getEstado());
     }
 
     public ClasificacionForm crearFormularioInicial() {
