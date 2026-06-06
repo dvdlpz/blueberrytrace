@@ -1,0 +1,11 @@
+1. Abre src/main/resources/application.properties
+2. Reemplaza:
+   spring.datasource.username=TU_USUARIO
+   spring.datasource.password=TU_PASSWORD
+   por tus credenciales reales de MySQL.
+3. Ejecuta el proyecto.
+4. Si arranca sin errores, el siguiente paso será:
+   - crear datos iniciales de roles
+   - usuario admin
+   - PasswordEncoder
+   - login real con Spring Security

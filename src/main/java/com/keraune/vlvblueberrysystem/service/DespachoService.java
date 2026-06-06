@@ -18,12 +18,14 @@ public class DespachoService {
     private final DespachoRepository despachoRepository;
     private final LoteRepository loteRepository;
     private final UserRepository userRepository;
+    private final AuditoriaService auditoriaService;
 
     public DespachoService(DespachoRepository despachoRepository, LoteRepository loteRepository,
-                           UserRepository userRepository) {
+                           UserRepository userRepository, AuditoriaService auditoriaService) {
         this.despachoRepository = despachoRepository;
         this.loteRepository = loteRepository;
         this.userRepository = userRepository;
+        this.auditoriaService = auditoriaService;
     }
 
     @Transactional(readOnly = true)
@@ -50,6 +52,7 @@ public class DespachoService {
         despacho.setEstado(normalizarEstado(form.getEstado(), "REGISTRADO"));
         despacho.setUsuarioRegistro(usuario);
         despachoRepository.save(despacho);
+        auditoriaService.registrar("Despacho", "Crear despacho", "Se registró despacho para el invernadero " + lote.getCodigo());
     }
 
     @Transactional
@@ -58,6 +61,7 @@ public class DespachoService {
                 .orElseThrow(() -> new IllegalArgumentException("No se encontró el despacho solicitado."));
         despacho.setEstado(normalizarEstado(nuevoEstado, "REGISTRADO"));
         despachoRepository.save(despacho);
+        auditoriaService.registrar("Despacho", "Cambiar estado", "Se cambió el estado del despacho #" + despacho.getId() + " a " + despacho.getEstado());
     }
 
     public DespachoForm crearFormularioInicial() {
