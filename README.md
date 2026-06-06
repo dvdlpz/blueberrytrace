@@ -4,16 +4,6 @@
 
 Este repositorio fue organizado para el **Avance 2 del curso Herramientas de Desarrollo**. Por eso, además del código fuente, incluye evidencias de uso de Git, GitHub, ramas, issues, pull requests, integración continua y documentación técnica.
 
-## Relación con el informe APF2
-
-El proyecto implementa la propuesta descrita en el informe:
-
-- Sistema web para trazabilidad de arándanos.
-- Arquitectura MVC con Spring Boot, Thymeleaf, Spring Data JPA y MySQL.
-- Módulos de usuarios, lotes, camas, procesos productivos, reportes y auditoría.
-- Flujo de trabajo colaborativo usando GitHub Flow.
-- Soporte documental para evidenciar ramas, commits, PRs, issues, CI/CD y despliegue.
-
 ## Módulos principales
 
 | Módulo | Estado | Descripción |
