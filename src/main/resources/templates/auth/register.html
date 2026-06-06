@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css" th:href="@{/css/style.css}">
+    <title>Registro | Sistema web de arándanos</title>
+</head>
+<body class="auth-clean-body vlv-auth-page">
+<div class="vlv-auth-layout">
+    <section class="vlv-auth-side">
+        <div class="vlv-auth-side-inner">
+            <img th:src="@{/img/vlv/image_11.png}" src="../../static/img/vlv/image_11.png" alt="Vivero Los Viñedos" class="vlv-auth-logo">
+            <span class="vlv-section-tag">Gestión de accesos</span>
+            <h1>Registro de usuarios para el sistema interno</h1>
+            <p>
+                Esta vista permite dar de alta perfiles de acceso para la operación y supervisión del sistema.
+            </p>
+            <ul class="vlv-auth-points">
+                <li>Asignación de roles internos</li>
+                <li>Control de accesos por perfil</li>
+                <li>Alta de usuarios activos e inactivos</li>
+                <li>Base preparada para seguridad del sistema</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="vlv-auth-form-wrap">
+        <div class="auth-clean-card vlv-auth-card">
+            <a class="auth-clean-back" th:href="@{/auth/login}">← Volver a login</a>
+            <img th:src="@{/img/vlv/image_11.png}" src="../../static/img/vlv/image_11.png" alt="Vivero Los Viñedos" class="vlv-auth-card-logo">
+            <h2>Crear usuario</h2>
+            <p class="auth-clean-muted">Registro interno de nuevos perfiles del sistema.</p>
+
+            <form class="auth-clean-form auth-clean-form-grid">
+                <div>
+                    <label>Nombre completo</label>
+                    <input type="text" placeholder="Ej. Ramón Jiménez">
+                </div>
+                <div>
+                    <label>Usuario</label>
+                    <input type="text" placeholder="Ej. supervisor01">
+                </div>
+                <div>
+                    <label>Correo</label>
+                    <input type="email" placeholder="correo@vlv.pe">
+                </div>
+                <div>
+                    <label>Rol</label>
+                    <select>
+                        <option>Administrador</option>
+                        <option>Supervisor</option>
+                        <option>Contabilizador</option>
+                        <option>Operario</option>
+                        <option>Control de calidad</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Contraseña</label>
+                    <input type="password" placeholder="Mínimo 8 caracteres">
+                </div>
+                <div>
+                    <label>Confirmar contraseña</label>
+                    <input type="password" placeholder="Repite la contraseña">
+                </div>
+                <div class="full-span">
+                    <label>Estado</label>
+                    <select>
+                        <option>Activo</option>
+                        <option>Inactivo</option>
+                    </select>
+                </div>
+                <button class="primary-btn full-width full-span" type="button">Guardar usuario</button>
+            </form>
+
+            <div class="auth-clean-footer">
+                <span>¿Ya existe una cuenta?</span>
+                <a th:href="@{/auth/login}">Ir a login</a>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

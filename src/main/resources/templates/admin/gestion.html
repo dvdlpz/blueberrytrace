@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión administrador | Sistema web de arándanos</title>
+    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body class="app-body vlv-dashboard-body">
+<div class="app-shell">
+    <div th:replace="~{fragments/app-shell :: sidebar('admin')}"></div>
+    <main class="main-content blueberry-main-content">
+        <div th:replace="~{fragments/app-shell :: topbar('Gestión administrador', 'Dashboard administrativo para usuarios, accesos y supervisión interna del sistema')}"></div>
+
+        <section class="stats-grid premium-stats corporate-kpis compact-top-space">
+            <article class="metric-card metric-primary corporate-metric-card">
+                <span class="metric-label">Usuarios registrados</span>
+                <strong th:text="${#lists.size(usuarios)}">0</strong>
+                <small>Base actual de accesos del sistema</small>
+            </article>
+            <article class="metric-card soft-card corporate-metric-card">
+                <span class="metric-label">Administradores</span>
+                <strong th:text="${#lists.size(usuarios.?[rol != null and rol.nombre == 'ADMINISTRADOR'])}">0</strong>
+                <small>Control global y configuración</small>
+            </article>
+            <article class="metric-card soft-card corporate-metric-card">
+                <span class="metric-label">Supervisores</span>
+                <strong th:text="${#lists.size(usuarios.?[rol != null and rol.nombre == 'SUPERVISOR'])}">0</strong>
+                <small>Seguimiento del área operativa</small>
+            </article>
+            <article class="metric-card metric-warning corporate-metric-card">
+                <span class="metric-label">Inactivos</span>
+                <strong th:text="${#lists.size(usuarios.?[estado == false])}">0</strong>
+                <small>Usuarios fuera de servicio o sin acceso</small>
+            </article>
+        </section>
+
+        <div class="section-ribbon">
+            <span>Gestión admin</span>
+            <h3>Control centralizado de usuarios</h3>
+        </div>
+
+        <section class="dashboard-grid bottom-grid">
+            <article class="panel-card corporate-panel lotes-main-card">
+                <div class="panel-head">
+                    <h3>Usuarios del sistema</h3>
+                    <a class="primary-btn" th:href="@{/auth/register}">Nuevo usuario</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="custom-table">
+                        <thead>
+                        <tr>
+                            <th>Nombre completo</th>
+                            <th>Usuario</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${#lists.isEmpty(usuarios)}">
+                            <td colspan="5">No hay usuarios registrados.</td>
+                        </tr>
+                        <tr th:each="usuario : ${usuarios}">
+                            <td th:text="${usuario.nombreCompleto}">Administrador del Sistema</td>
+                            <td th:text="${usuario.username}">admin</td>
+                            <td th:text="${usuario.email}">admin@vlv.local</td>
+                            <td th:text="${usuario.rol != null ? usuario.rol.nombre : '-'}">ADMINISTRADOR</td>
+                            <td>
+                                <span class="badge" th:text="${usuario.estado ? 'ACTIVO' : 'INACTIVO'}" th:classappend="${usuario.estado} ? ' success' : ' neutral'">ACTIVO</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </article>
+
+            <article class="panel-card corporate-panel context-card">
+                <div class="panel-head">
+                    <h3>Bloques administrativos</h3>
+                    <span>Contexto</span>
+                </div>
+                <div class="context-list">
+                    <div><strong>Alta de usuarios</strong><span>Registra perfiles internos para administrador, supervisor, operario y otros roles.</span></div>
+                    <div><strong>Visibilidad clara</strong><span>Los estados de acceso se muestran con badges y contraste correcto.</span></div>
+                    <div><strong>Escalabilidad</strong><span>Esta vista queda lista para futuras acciones de edición, activación, desactivación y auditoría.</span></div>
+                </div>
+            </article>
+        </section>
+    </main>
+</div>
+<script src="../static/js/app.js" th:src="@{/js/app.js}"></script>
+</body>
+</html>

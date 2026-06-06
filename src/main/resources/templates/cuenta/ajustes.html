@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajustes de la cuenta | Sistema web de arándanos</title>
+    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}">
+</head>
+<body class="app-body vlv-dashboard-body">
+<div class="app-shell">
+    <div th:replace="~{fragments/app-shell :: sidebar('cuenta')}"></div>
+    <main class="main-content blueberry-main-content">
+        <div th:replace="~{fragments/app-shell :: topbar('Ajustes de la cuenta', 'Dashboard personal para actualizar datos del usuario con validación segura')}"></div>
+
+        <div class="lote-alert success" th:if="${successMessage}" th:text="${successMessage}"></div>
+
+        <section class="stats-grid premium-stats corporate-kpis compact-top-space">
+            <article class="metric-card metric-primary corporate-metric-card">
+                <span class="metric-label">Perfil activo</span>
+                <strong>01</strong>
+                <small>Cuenta autenticada actualmente en uso</small>
+            </article>
+            <article class="metric-card soft-card corporate-metric-card">
+                <span class="metric-label">Datos principales</span>
+                <strong>04</strong>
+                <small>Nombre, apellido, usuario y correo</small>
+            </article>
+            <article class="metric-card metric-warning corporate-metric-card">
+                <span class="metric-label">Validación</span>
+                <strong>100%</strong>
+                <small>Los cambios requieren la contraseña actual</small>
+            </article>
+            <article class="metric-card soft-card corporate-metric-card">
+                <span class="metric-label">Accesos rápidos</span>
+                <strong>02</strong>
+                <small>Perfil personal y panel administrador</small>
+            </article>
+        </section>
+
+        <div class="section-ribbon">
+            <span>Cuenta</span>
+            <h3>Configuración personal y seguridad</h3>
+        </div>
+
+        <section class="dashboard-grid bottom-grid form-page-grid">
+            <article class="panel-card corporate-panel form-main-card">
+                <div class="panel-head">
+                    <h3>Perfil del usuario</h3>
+                    <span>Edición segura</span>
+                </div>
+                <form class="form-grid two-columns" th:action="@{/cuenta/ajustes}" th:object="${accountSettingsForm}" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                    <div class="form-group">
+                        <label for="nombres">Nombre</label>
+                        <input id="nombres" type="text" th:field="*{nombres}" placeholder="Tus nombres">
+                        <small class="field-error" th:if="${#fields.hasErrors('nombres')}" th:errors="*{nombres}"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidos">Apellido</label>
+                        <input id="apellidos" type="text" th:field="*{apellidos}" placeholder="Tus apellidos">
+                        <small class="field-error" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Usuario</label>
+                        <input id="username" type="text" th:field="*{username}" placeholder="Usuario del sistema">
+                        <small class="field-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo</label>
+                        <input id="email" type="email" th:field="*{email}" placeholder="correo@empresa.com">
+                        <small class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+                    </div>
+                    <div class="form-group full-span">
+                        <label for="currentPassword">Confirmar contraseña actual</label>
+                        <input id="currentPassword" type="password" th:field="*{currentPassword}" placeholder="Escribe tu contraseña actual para guardar cambios">
+                        <small class="field-error" th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}"></small>
+                    </div>
+                    <div class="lote-edit-actions full-span">
+                        <button class="primary-btn full-width" type="submit">Guardar cambios</button>
+                        <a class="ghost-btn full-width" th:href="@{/dashboard}">Volver al dashboard</a>
+                    </div>
+                </form>
+            </article>
+
+            <article class="panel-card corporate-panel context-card">
+                <div class="panel-head">
+                    <h3>Secciones disponibles</h3>
+                    <span>Vista lateral</span>
+                </div>
+                <div class="context-list">
+                    <div><strong>Perfil</strong><span>Actualiza tu información visible dentro del sistema.</span></div>
+                    <div><strong>Seguridad</strong><span>La contraseña actual actúa como confirmación antes de guardar.</span></div>
+                    <div><strong>Navegación</strong><span>Desde el menú del perfil puedes abrir ajustes o cerrar sesión.</span></div>
+                    <div><strong>Gestión admin</strong><span>Si tu rol lo permite, puedes pasar al dashboard administrativo desde el sidebar.</span></div>
+                </div>
+            </article>
+        </section>
+    </main>
+</div>
+<script src="../static/js/app.js" th:src="@{/js/app.js}"></script>
+</body>
+</html>

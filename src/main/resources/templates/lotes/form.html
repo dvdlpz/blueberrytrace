@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${tituloFormulario}">Formulario de invernadero</title>
+    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}">
+</head>
+
+<body class="app-body">
+    <div class="app-shell">
+        <div th:replace="~{fragments/app-shell :: sidebar('lotes')}"></div>
+
+        <main class="main-content">
+            <div th:replace="~{fragments/app-shell :: topbar(${tituloFormulario}, ${subtituloFormulario})}"></div>
+
+            <section class="dashboard-grid bottom-grid form-page-grid">
+                <article class="panel-card form-main-card">
+                    <div class="panel-head">
+                        <h3 th:text="${tituloFormulario}">Nuevo invernadero</h3>
+                        <span th:text="${modo == 'editar'} ? 'Edición' : 'Registro inicial'">Formulario</span>
+                    </div>
+
+                    <form class="form-grid two-columns"
+                        th:action="${modo == 'editar'} ? @{/lotes/{id}/editar(id=${loteId})} : @{/lotes/nuevo}"
+                        th:object="${loteForm}" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                        <div class="form-group">
+                            <label for="codigo">Código del invernadero</label>
+                            <input id="codigo" type="text" th:field="*{codigo}" placeholder="A1">
+                            <small class="field-error" th:if="${#fields.hasErrors('codigo')}"
+                                th:errors="*{codigo}"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fechaRegistro">Fecha de registro</label>
+                            <input id="fechaRegistro" type="date" th:field="*{fechaRegistro}">
+                            <small class="field-error" th:if="${#fields.hasErrors('fechaRegistro')}"
+                                th:errors="*{fechaRegistro}"></small>
+                        </div>
+
+                        <div class="form-group full-span">
+                            <label for="descripcion">Descripción</label>
+                            <input id="descripcion" type="text" th:field="*{descripcion}"
+                                placeholder="Invernadero del sector A para propagación de frutales">
+                            <small class="field-error" th:if="${#fields.hasErrors('descripcion')}"
+                                th:errors="*{descripcion}"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cultivo">Cultivo</label>
+                            <input id="cultivo" type="text" th:field="*{cultivo}" list="cultivos-sugeridos"
+                                placeholder="Arándano">
+                            <datalist id="cultivos-sugeridos">
+                                <option th:each="cultivo : ${cultivosSugeridos}" th:value="${cultivo}"></option>
+                            </datalist>
+                            <small class="field-error" th:if="${#fields.hasErrors('cultivo')}"
+                                th:errors="*{cultivo}"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="variedad">Variedad</label>
+                            <input id="variedad" type="text" th:field="*{variedad}"
+                                placeholder="Biloxi, Ventura, Red Globe...">
+                            <small class="field-error" th:if="${#fields.hasErrors('variedad')}"
+                                th:errors="*{variedad}"></small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="estado">Estado</label>
+                            <select id="estado" th:field="*{estado}">
+                                <option th:each="estado : ${estadosDisponibles}" th:value="${estado}"
+                                    th:text="${estado}"></option>
+                            </select>
+                            <small class="field-error" th:if="${#fields.hasErrors('estado')}"
+                                th:errors="*{estado}"></small>
+                        </div>
+
+                        <div class="form-group full-span">
+                            <label for="observacion">Observación</label>
+                            <textarea id="observacion" th:field="*{observacion}"
+                                placeholder="Detalle operativo del invernadero, ubicación o notas del cultivo"></textarea>
+                            <small class="field-error" th:if="${#fields.hasErrors('observacion')}"
+                                th:errors="*{observacion}"></small>
+                        </div>
+
+                        <div class="lote-edit-actions full-span">
+                            <button class="primary-btn full-width" type="submit"
+                                th:text="${modo == 'editar'} ? 'Actualizar invernadero' : 'Guardar invernadero'">Guardar</button>
+                            <a class="ghost-btn full-width" th:href="@{/lotes}">Volver al listado</a>
+                        </div>
+                    </form>
+                </article>
+
+                <article class="panel-card context-card">
+                    <div class="panel-head">
+                        <h3>Ayuda de registro</h3>
+                        <span>Buenas prácticas</span>
+                    </div>
+                    <div class="context-list">
+                        <div><strong>Código</strong><span>Usa la codificación real del vivero: A1, A2, B1, B2...</span>
+                        </div>
+                        <div><strong>Cultivo</strong><span>Indica el tipo de fruta o especie principal manejada en el
+                                invernadero.</span></div>
+                        <div><strong>Variedad</strong><span>Registra la variedad exacta para mantener trazabilidad
+                                real.</span></div>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invernaderos</title>
+    <link rel="stylesheet" href="/css/style.css" th:href="@{/css/style.css}">
+</head>
+
+<body class="app-body">
+    <div class="app-shell">
+        <div th:replace="~{fragments/app-shell :: sidebar('lotes')}"></div>
+
+        <main class="main-content">
+            <div
+                th:replace="~{fragments/app-shell :: topbar('Invernaderos', 'Control de invernaderos, cultivos y variedades del vivero')}">
+            </div>
+
+            <div class="lote-alert success" th:if="${successMessage}" th:text="${successMessage}"></div>
+
+            <section class="stats-grid premium-stats compact-top-space">
+                <article class="metric-card metric-primary"><span class="metric-label">Invernaderos
+                        registrados</span><strong th:text="${#lists.size(lotes)}">0</strong><small>Base operativa
+                        actual</small></article>
+                <article class="metric-card soft-card"><span class="metric-label">Activos</span><strong
+                        th:text="${#lists.size(lotes.?[estado == 'ACTIVO'])}">0</strong><small>Disponibles para
+                        trabajo</small></article>
+                <article class="metric-card soft-card"><span class="metric-label">En mantenimiento</span><strong
+                        th:text="${#lists.size(lotes.?[estado == 'MANTENIMIENTO'])}">0</strong><small>Con intervención
+                        operativa</small></article>
+                <article class="metric-card metric-warning"><span class="metric-label">Inactivos /
+                        eliminados</span><strong
+                        th:text="${#lists.size(lotes.?[estado != 'ACTIVO' and estado != 'MANTENIMIENTO'])}">0</strong><small>Fuera
+                        de operación</small></article>
+            </section>
+
+            <section class="dashboard-grid bottom-grid">
+                <article class="panel-card lotes-main-card">
+                    <div class="panel-head">
+                        <div>
+                            <h3>Listado de invernaderos</h3>
+                            <span>Codificación real tipo A1, A2, B1, B2...</span>
+                        </div>
+                        <a class="primary-btn" th:href="@{/lotes/nuevo}">Nuevo invernadero</a>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Descripción</th>
+                                    <th>Cultivo</th>
+                                    <th>Variedad</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Responsable</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:if="${#lists.isEmpty(lotes)}">
+                                    <td colspan="8">Todavía no hay invernaderos registrados.</td>
+                                </tr>
+                                <tr th:each="lote : ${lotes}">
+                                    <td th:text="${lote.codigo}">A1</td>
+                                    <td th:text="${lote.descripcion}">Invernadero sector A</td>
+                                    <td th:text="${lote.cultivo}">Arándano</td>
+                                    <td th:text="${lote.variedad}">Biloxi</td>
+                                    <td th:text="${lote.fechaRegistro}">2026-04-14</td>
+                                    <td>
+                                        <span class="badge" th:text="${lote.estado}"
+                                            th:classappend="${lote.estado == 'ACTIVO'} ? ' success' : (${lote.estado == 'MANTENIMIENTO'} ? ' warning' : ' neutral')">ACTIVO</span>
+                                    </td>
+                                    <td th:text="${lote.usuarioRegistro != null ? lote.usuarioRegistro.username : '-'}">
+                                        admin</td>
+                                    <td>
+                                        <div class="table-actions stacked-actions">
+                                            <a class="table-link"
+                                                th:href="@{/lotes/{id}/editar(id=${lote.id})}">Editar</a>
+                                            <form th:action="@{/lotes/{id}/estado(id=${lote.id})}" method="post">
+                                                <input type="hidden" th:name="${_csrf.parameterName}"
+                                                    th:value="${_csrf.token}">
+                                                <button class="table-action-btn" type="submit"
+                                                    th:text="${lote.estado == 'ACTIVO'} ? 'Desactivar' : 'Activar'">Cambiar
+                                                    estado</button>
+                                            </form>
+                                            <form th:action="@{/lotes/{id}/eliminar(id=${lote.id})}" method="post">
+                                                <input type="hidden" th:name="${_csrf.parameterName}"
+                                                    th:value="${_csrf.token}">
+                                                <button class="table-action-btn danger-action"
+                                                    type="submit">Eliminar</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <article class="panel-card context-card">
+                    <div class="panel-head">
+                        <h3>Contexto operativo</h3>
+                        <span>Estructura real del vivero</span>
+                    </div>
+                    <div class="context-list">
+                        <div><strong>Invernadero</strong><span>Es la unidad principal del sistema y se identifica con
+                                códigos como A1, A2, B1.</span></div>
+                        <div><strong>Camas</strong><span>Cada invernadero contiene varias camas o filas de bandejas de
+                                cultivo.</span></div>
+                        <div><strong>Cultivos</strong><span>El vivero puede manejar distintas frutas y variedades, no
+                                solo arándano.</span></div>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
+</body>
+
+</html>
