@@ -17,13 +17,11 @@ public class CamaService {
     private final CamaRepository camaRepository;
     private final LoteRepository loteRepository;
     private final UserRepository userRepository;
-    private final AuditoriaService auditoriaService;
 
-    public CamaService(CamaRepository camaRepository, LoteRepository loteRepository, UserRepository userRepository, AuditoriaService auditoriaService) {
+    public CamaService(CamaRepository camaRepository, LoteRepository loteRepository, UserRepository userRepository) {
         this.camaRepository = camaRepository;
         this.loteRepository = loteRepository;
         this.userRepository = userRepository;
-        this.auditoriaService = auditoriaService;
     }
 
     @Transactional(readOnly = true)
@@ -57,7 +55,6 @@ public class CamaService {
         cama.setUsuarioRegistro(usuario);
 
         camaRepository.save(cama);
-        auditoriaService.registrar("Camas", "Crear cama", "Se registró la cama " + cama.getCodigo());
     }
 
     @Transactional
@@ -76,7 +73,6 @@ public class CamaService {
         cama.setLote(lote);
 
         camaRepository.save(cama);
-        auditoriaService.registrar("Camas", "Actualizar cama", "Se actualizó la cama " + cama.getCodigo());
     }
 
     @Transactional
@@ -88,7 +84,6 @@ public class CamaService {
             cama.setEstado("ACTIVA");
         }
         camaRepository.save(cama);
-        auditoriaService.registrar("Camas", "Cambiar estado", "Se cambió el estado de la cama " + cama.getCodigo() + " a " + cama.getEstado());
     }
 
     @Transactional(readOnly = true)

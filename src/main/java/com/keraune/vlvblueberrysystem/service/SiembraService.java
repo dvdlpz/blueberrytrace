@@ -21,15 +21,13 @@ public class SiembraService {
     private final LoteRepository loteRepository;
     private final CamaRepository camaRepository;
     private final UserRepository userRepository;
-    private final AuditoriaService auditoriaService;
 
     public SiembraService(SiembraRepository siembraRepository, LoteRepository loteRepository,
-                          CamaRepository camaRepository, UserRepository userRepository, AuditoriaService auditoriaService) {
+                          CamaRepository camaRepository, UserRepository userRepository) {
         this.siembraRepository = siembraRepository;
         this.loteRepository = loteRepository;
         this.camaRepository = camaRepository;
         this.userRepository = userRepository;
-        this.auditoriaService = auditoriaService;
     }
 
     @Transactional(readOnly = true)
@@ -58,7 +56,6 @@ public class SiembraService {
         siembra.setEstado(normalizarEstado(form.getEstado(), "REGISTRADA"));
         siembra.setUsuarioRegistro(usuario);
         siembraRepository.save(siembra);
-        auditoriaService.registrar("Siembra", "Crear siembra", "Se registró siembra para el invernadero " + lote.getCodigo());
     }
 
     @Transactional
@@ -66,7 +63,6 @@ public class SiembraService {
         Siembra siembra = obtenerPorId(id);
         siembra.setEstado("REGISTRADA".equalsIgnoreCase(siembra.getEstado()) ? "ANULADA" : "REGISTRADA");
         siembraRepository.save(siembra);
-        auditoriaService.registrar("Siembra", "Cambiar estado", "Se cambió el estado de la siembra #" + siembra.getId() + " a " + siembra.getEstado());
     }
 
     public SiembraForm crearFormularioInicial() {

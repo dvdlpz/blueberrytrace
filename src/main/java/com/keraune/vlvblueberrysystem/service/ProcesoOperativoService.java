@@ -25,20 +25,17 @@ public class ProcesoOperativoService {
     private final LoteRepository loteRepository;
     private final CamaRepository camaRepository;
     private final UserRepository userRepository;
-    private final AuditoriaService auditoriaService;
 
     public ProcesoOperativoService(UniformizacionRepository uniformizacionRepository,
                                    FormalizacionRepository formalizacionRepository,
                                    LoteRepository loteRepository,
                                    CamaRepository camaRepository,
-                                   UserRepository userRepository,
-                                   AuditoriaService auditoriaService) {
+                                   UserRepository userRepository) {
         this.uniformizacionRepository = uniformizacionRepository;
         this.formalizacionRepository = formalizacionRepository;
         this.loteRepository = loteRepository;
         this.camaRepository = camaRepository;
         this.userRepository = userRepository;
-        this.auditoriaService = auditoriaService;
     }
 
     @Transactional(readOnly = true)
@@ -68,7 +65,6 @@ public class ProcesoOperativoService {
         uniformizacion.setEstado(normalizarEstado(form.getEstado(), "REGISTRADA"));
         uniformizacion.setUsuarioRegistro(usuario);
         uniformizacionRepository.save(uniformizacion);
-        auditoriaService.registrar("Procesos", "Crear uniformización", "Se registró uniformización para el invernadero " + lote.getCodigo());
     }
 
     @Transactional
@@ -88,7 +84,6 @@ public class ProcesoOperativoService {
         formalizacion.setEstado(normalizarEstado(form.getEstado(), "REGISTRADA"));
         formalizacion.setUsuarioRegistro(usuario);
         formalizacionRepository.save(formalizacion);
-        auditoriaService.registrar("Procesos", "Crear formalización", "Se registró formalización para el invernadero " + lote.getCodigo());
     }
 
     @Transactional
@@ -97,7 +92,6 @@ public class ProcesoOperativoService {
                 .orElseThrow(() -> new IllegalArgumentException("No se encontró la uniformización solicitada."));
         uniformizacion.setEstado("REGISTRADA".equalsIgnoreCase(uniformizacion.getEstado()) ? "ANULADA" : "REGISTRADA");
         uniformizacionRepository.save(uniformizacion);
-        auditoriaService.registrar("Procesos", "Cambiar estado uniformización", "Se cambió el estado de la uniformización #" + uniformizacion.getId() + " a " + uniformizacion.getEstado());
     }
 
     @Transactional
@@ -106,7 +100,6 @@ public class ProcesoOperativoService {
                 .orElseThrow(() -> new IllegalArgumentException("No se encontró la formalización solicitada."));
         formalizacion.setEstado("REGISTRADA".equalsIgnoreCase(formalizacion.getEstado()) ? "ANULADA" : "REGISTRADA");
         formalizacionRepository.save(formalizacion);
-        auditoriaService.registrar("Procesos", "Cambiar estado formalización", "Se cambió el estado de la formalización #" + formalizacion.getId() + " a " + formalizacion.getEstado());
     }
 
     public UniformizacionForm crearFormularioUniformizacionInicial() {
