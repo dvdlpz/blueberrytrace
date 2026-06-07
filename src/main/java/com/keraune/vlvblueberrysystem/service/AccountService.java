@@ -12,12 +12,10 @@ public class AccountService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuditoriaService auditoriaService;
 
-    public AccountService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuditoriaService auditoriaService) {
+    public AccountService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.auditoriaService = auditoriaService;
     }
 
     @Transactional(readOnly = true)
@@ -56,7 +54,6 @@ public class AccountService {
         user.setUsername(form.getUsername().trim());
         user.setEmail(form.getEmail() == null ? null : form.getEmail().trim());
         userRepository.save(user);
-        auditoriaService.registrar("Cuenta", "Actualizar cuenta", "El usuario actualizó sus datos de cuenta.");
     }
 
     private String[] separarNombre(String nombreCompleto) {

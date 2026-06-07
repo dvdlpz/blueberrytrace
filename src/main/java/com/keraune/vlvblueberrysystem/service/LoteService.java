@@ -14,12 +14,10 @@ public class LoteService {
 
     private final LoteRepository loteRepository;
     private final UserRepository userRepository;
-    private final AuditoriaService auditoriaService;
 
-    public LoteService(LoteRepository loteRepository, UserRepository userRepository, AuditoriaService auditoriaService) {
+    public LoteService(LoteRepository loteRepository, UserRepository userRepository) {
         this.loteRepository = loteRepository;
         this.userRepository = userRepository;
-        this.auditoriaService = auditoriaService;
     }
 
     @Transactional(readOnly = true)
@@ -45,7 +43,6 @@ public class LoteService {
         aplicarFormulario(lote, form, codigoNormalizado);
         lote.setUsuarioRegistro(usuario);
         loteRepository.save(lote);
-        auditoriaService.registrar("Lotes", "Crear invernadero", "Se registró el invernadero " + lote.getCodigo());
     }
 
     @Transactional
@@ -55,7 +52,6 @@ public class LoteService {
         validarCodigoDuplicado(codigoNormalizado, id);
         aplicarFormulario(lote, form, codigoNormalizado);
         loteRepository.save(lote);
-        auditoriaService.registrar("Lotes", "Actualizar invernadero", "Se actualizó el invernadero " + lote.getCodigo());
     }
 
     @Transactional
@@ -67,7 +63,6 @@ public class LoteService {
             lote.setEstado("ACTIVO");
         }
         loteRepository.save(lote);
-        auditoriaService.registrar("Lotes", "Cambiar estado", "Se cambió el estado del invernadero " + lote.getCodigo() + " a " + lote.getEstado());
     }
 
     @Transactional
@@ -75,7 +70,6 @@ public class LoteService {
         Lote lote = obtenerPorId(id);
         lote.setEstado("ELIMINADO");
         loteRepository.save(lote);
-        auditoriaService.registrar("Lotes", "Eliminar lógico", "Se marcó como eliminado el invernadero " + lote.getCodigo());
     }
 
     @Transactional(readOnly = true)
