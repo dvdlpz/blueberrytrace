@@ -1,33 +1,40 @@
-HELP.md
+# Private environment configuration
+.env
+.env.*
+backend/.env
+backend/.env.*
+frontend/.env
+frontend/.env.*
+
+# Node / Vite
+node_modules/
+frontend/node_modules/
+frontend/dist/
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+
+# Java / Maven
+backend/target/
 target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+.mvn/timing.properties
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+# IDE and local system
+.idea/
 *.iml
 *.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+*.iws
 .vscode/
+.DS_Store
+Thumbs.db
+
+# Logs and local backups
+*.log
+logs/
+backups/
+*.sql
+*.sql.gz
+*.dump
+
+# Pterodactyl generated release bundle
+artifacts/pterodactyl/

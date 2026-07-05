@@ -1,0 +1,8 @@
+# Production override.
+# Use together with docker-compose.yml only when you want to pin images built on the VPS:
+# docker compose --env-file .env -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+services:
+  backend:
+    pull_policy: build
+  frontend:
+    pull_policy: build

@@ -1,0 +1,362 @@
+/*
+ * Ajustes operativos de interfaz.
+ * Este archivo concentra correcciones visuales de flujos reales sin añadir
+ * reglas de parche al index.css histórico.
+ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Formularios: misma proporción en pantallas, modales y asistentes guiados. */
+.form-grid > label:not(.checkbox-field),
+.step-card .form-grid > label:not(.checkbox-field),
+.profile-settings-panel .form-grid > label:not(.checkbox-field) {
+  min-width: 0;
+  align-content: start;
+  color: var(--form-label, #344b3d);
+  font-size: 0.76rem;
+  font-weight: 760;
+  line-height: 1.35;
+}
+
+.form-grid > label:not(.checkbox-field) > :is(input, select, textarea),
+.step-card .form-grid > label:not(.checkbox-field) > :is(input, select, textarea),
+.profile-settings-panel .form-grid > label:not(.checkbox-field) > :is(input, select, textarea) {
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.form-grid > label:not(.checkbox-field) > span,
+.step-card .form-grid > label:not(.checkbox-field) > span,
+.profile-settings-panel .form-grid > label:not(.checkbox-field) > span {
+  margin-bottom: 0 !important;
+}
+
+.form-shell .checkbox-field,
+.step-card .checkbox-field,
+.modal-card .checkbox-field {
+  grid-template-columns: 1.12rem minmax(0, 1fr);
+  min-height: 2.95rem;
+  padding: 0.56rem 0.7rem;
+  gap: 0.6rem !important;
+}
+
+.form-grid label.checkbox-field > span,
+.form-shell .checkbox-field > span,
+.step-card .checkbox-field > span,
+.modal-card .checkbox-field > span {
+  display: block;
+  margin: 0 !important;
+  color: #294434 !important;
+  font-size: 0.78rem !important;
+  font-weight: 680 !important;
+  line-height: 1.36 !important;
+}
+
+.checkbox-group__options {
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 0.55rem;
+}
+
+.checkbox-group > p {
+  max-width: 52rem;
+  margin-bottom: 0.6rem;
+}
+
+.form-actions--sticky,
+.modal-card__body .form-actions--sticky {
+  min-height: 4.25rem;
+}
+
+/* Asistente de siembra: etapas compactas y legibles, sin cápsulas gigantes. */
+.stepper--corporate {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  padding: 0.75rem 0.85rem;
+  border: 0;
+  border-bottom: 1px solid #dce8e0;
+  border-radius: 0;
+  background: linear-gradient(90deg, rgba(22, 107, 67, 0.045), rgba(255, 255, 255, 0.86));
+}
+
+.stepper--corporate .stepper__item {
+  min-width: 0;
+  min-height: 3.05rem;
+  padding: 0.46rem 0.56rem;
+  border: 1px solid transparent;
+  border-radius: 0.82rem;
+  background: transparent;
+  color: #708176;
+}
+
+.stepper--corporate .stepper__item::after {
+  display: none;
+}
+
+.stepper--corporate .stepper__label,
+.stepper--corporate .stepper__item--active .stepper__label {
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.stepper--corporate .stepper__label strong {
+  display: block;
+  overflow: hidden;
+  color: inherit;
+  font-size: 0.82rem;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stepper--corporate .stepper__index {
+  width: 1.92rem;
+  height: 1.92rem;
+  border-color: #c8d8cd;
+  box-shadow: none;
+}
+
+.stepper--corporate .stepper__item--active {
+  border-color: #c9e2d0;
+  background: #ffffff;
+  color: #173d28;
+  box-shadow: 0 7px 18px rgba(17, 61, 38, 0.06);
+}
+
+.stepper--corporate .stepper__item--active .stepper__index {
+  box-shadow: 0 6px 14px rgba(31, 122, 67, 0.16);
+}
+
+.step-card--refined .step-card__body {
+  padding-top: 1.1rem;
+}
+
+/* Trazabilidad: controles equilibrados y hechos operativos que no se juntan. */
+.trace-control-panel__search {
+  grid-template-columns: minmax(0, 0.9fr) minmax(22rem, 1.1fr);
+  align-items: stretch;
+}
+
+.trace-control-panel__search .filter-toolbar__search,
+.trace-control-panel__search .trace-search-control {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+.trace-control-panel__search label.trace-select-control {
+  display: grid !important;
+  grid-template-columns: minmax(6.9rem, auto) minmax(0, 1fr);
+  align-items: center;
+  min-height: 3.15rem;
+  max-width: none;
+  margin: 0;
+  padding: 0.52rem 0.78rem;
+  gap: 0.7rem;
+  border: 1px solid #d9e6db;
+  border-radius: 0.95rem;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbf8 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.trace-control-panel__search label.trace-select-control > span {
+  color: #5d7565;
+  font-size: 0.72rem;
+  font-weight: 780;
+  line-height: 1.25;
+}
+
+.trace-control-panel__search label.trace-select-control > select {
+  min-width: 0;
+  min-height: 2.25rem;
+  padding: 0.45rem 1.85rem 0.45rem 0.1rem;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: #243a2c;
+  font-size: 0.84rem;
+  font-weight: 760;
+}
+
+.trace-control-panel__search label.trace-select-control > select:focus {
+  box-shadow: none;
+}
+
+.trace-kpi-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.trace-kpi {
+  min-height: 4.8rem;
+  padding: 0.78rem 0.82rem;
+  gap: 0.68rem;
+}
+
+.trace-kpi > span {
+  width: 2.28rem;
+  height: 2.28rem;
+  border-radius: 0.76rem;
+}
+
+.trace-kpi strong {
+  font-size: 1.18rem;
+}
+
+.trace-kpi small {
+  margin-top: 0.16rem;
+  font-size: 0.72rem;
+  line-height: 1.28;
+}
+
+.trace-lot-card {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.82rem;
+}
+
+.trace-lot-card__header {
+  width: 100%;
+}
+
+.trace-lot-card__header > div {
+  min-width: 0;
+}
+
+.trace-lot-card__header .status-badge {
+  margin-left: auto;
+}
+
+.trace-lot-card__facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-column: 1 / -1;
+  gap: 0.54rem;
+}
+
+.trace-lot-card__fact {
+  min-width: 0;
+  padding: 0.62rem 0.68rem;
+  border: 1px solid #e0ebe2;
+  border-radius: 0.75rem;
+  background: #fbfdfb;
+}
+
+.trace-lot-card__fact span,
+.trace-lot-card__fact strong {
+  display: block;
+}
+
+.trace-lot-card__fact span {
+  color: #6e8175;
+  font-size: 0.68rem;
+  font-weight: 760;
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+}
+
+.trace-lot-card__fact strong {
+  margin-top: 0.22rem;
+  overflow-wrap: anywhere;
+  color: #1b3828;
+  font-size: 0.82rem;
+  line-height: 1.3;
+}
+
+.trace-flow-card .panel-card__header {
+  margin-bottom: 0.7rem;
+}
+
+.trace-stage-row {
+  gap: 0.55rem;
+}
+
+.trace-stage {
+  min-height: 6.45rem;
+  padding: 0.66rem 0.48rem;
+  border-radius: 0.82rem;
+}
+
+.trace-stage strong {
+  font-size: 0.76rem;
+  line-height: 1.25;
+}
+
+/* Auditoría: conserva la etiqueta para lectores de pantalla sin romper la búsqueda. */
+.audit-filter-toolbar .audit-search-field {
+  width: 100%;
+  min-width: 0;
+}
+
+.audit-filter-toolbar .audit-search-field input {
+  min-width: 0;
+}
+
+.audit-filter-toolbar .audit-search-field .sr-only {
+  position: absolute;
+}
+
+@media (max-width: 1280px) {
+  .trace-kpi-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 960px) {
+  .trace-control-panel__search {
+    grid-template-columns: 1fr;
+  }
+
+  .trace-control-panel__search label.trace-select-control {
+    grid-template-columns: minmax(7.2rem, auto) minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .stepper--corporate {
+    grid-template-columns: 1fr;
+    gap: 0.42rem;
+  }
+
+  .stepper--corporate .stepper__item {
+    min-height: 2.72rem;
+  }
+
+  .trace-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .trace-lot-card__facts,
+  .trace-stage-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .trace-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trace-control-panel__search label.trace-select-control {
+    grid-template-columns: 1fr;
+    gap: 0.22rem;
+    align-items: start;
+  }
+
+  .trace-control-panel__search label.trace-select-control > select {
+    padding-left: 0;
+  }
+}

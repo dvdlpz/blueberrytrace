@@ -1,0 +1,124 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: blueberrytrace-mysql
+    restart: unless-stopped
+    command:
+      - --default-time-zone=-05:00
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_MIGRATION_USER: ${MYSQL_MIGRATION_USER}
+      MYSQL_MIGRATION_PASSWORD: ${MYSQL_MIGRATION_PASSWORD}
+      TZ: ${APP_TIMEZONE:-America/Lima}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/db/init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - dbeaver_local_network
+      - private_network
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 45s
+    ports:
+      - "127.0.0.1:3308:3306"
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: blueberrytrace-backend
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SERVER_PORT: 8080
+      DB_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&serverTimezone=${APP_TIMEZONE:-America/Lima}&allowPublicKeyRetrieval=true
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      FLYWAY_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?useSSL=false&serverTimezone=${APP_TIMEZONE:-America/Lima}&allowPublicKeyRetrieval=true
+      FLYWAY_USERNAME: ${MYSQL_MIGRATION_USER}
+      FLYWAY_PASSWORD: ${MYSQL_MIGRATION_PASSWORD}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS}
+      BLUEBERRYTRACE_SECURITY_ALLOWED_EMAIL_DOMAINS: ${ALLOWED_EMAIL_DOMAINS:-}
+      BLUEBERRYTRACE_BOOTSTRAP_ADMIN_ENABLED: ${BOOTSTRAP_ADMIN_ENABLED:-false}
+      BLUEBERRYTRACE_BOOTSTRAP_ADMIN_USERNAME: ${BOOTSTRAP_ADMIN_USERNAME:-}
+      BLUEBERRYTRACE_BOOTSTRAP_ADMIN_EMAIL: ${BOOTSTRAP_ADMIN_EMAIL:-}
+      BLUEBERRYTRACE_BOOTSTRAP_ADMIN_PASSWORD: ${BOOTSTRAP_ADMIN_PASSWORD:-}
+      BLUEBERRYTRACE_BOOTSTRAP_ADMIN_FULL_NAME: ${BOOTSTRAP_ADMIN_FULL_NAME:-}
+      BLUEBERRYTRACE_BOOTSTRAP_ADMIN_POSITION: ${BOOTSTRAP_ADMIN_POSITION:-}
+      TZ: ${APP_TIMEZONE:-America/Lima}
+      COOKIE_SECURE: ${COOKIE_SECURE:-true}
+      SERVER_SERVLET_SESSION_COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      BLUEBERRYTRACE_SECURITY_COOKIE_SECURE: ${COOKIE_SECURE:-false}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - private_network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:8080/api/v1/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 45s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: blueberrytrace-frontend
+    restart: unless-stopped
+    environment:
+      APP_DOMAIN: ${APP_DOMAIN}
+      TZ: ${APP_TIMEZONE:-America/Lima}
+    ports:
+      - "127.0.0.1:${FRONTEND_HTTP_PORT:-8081}:80"
+    volumes:
+      - ${NGINX_CONFIG:-./deploy/nginx/templates/blueberrytrace-http.conf.template}:/etc/nginx/templates/default.conf.template:ro
+      - letsencrypt:/etc/letsencrypt:ro
+      - certbot_webroot:/var/www/certbot:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - public_network
+      - private_network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1/nginx-health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  certbot:
+    image: certbot/certbot:v3.3.0
+    container_name: blueberrytrace-certbot
+    profiles: ["certbot"]
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - certbot_webroot:/var/www/certbot
+    networks:
+      - public_network
+
+volumes:
+  mysql_data:
+  letsencrypt:
+  certbot_webroot:
+
+networks:
+  public_network:
+    driver: bridge
+  private_network:
+    driver: bridge
+    internal: true
+  dbeaver_local_network:
+    name: blueberrytrace_dbeaver_local_network
+    driver: bridge
+

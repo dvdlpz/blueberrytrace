@@ -1,0 +1,37 @@
+# BlueberryTrace — external configuration for Pterodactyl.
+# Save this as /home/container/config/application-pterodactyl.properties.
+# Do not upload this file to Git or send its values by chat.
+
+# Copy the host, port, database name, username and password that Pterodactyl shows
+# after creating the MySQL/MariaDB database.
+DB_URL=jdbc:mysql://PANEL_DB_HOST:PANEL_DB_PORT/PANEL_DATABASE?useSSL=false&serverTimezone=America/Lima&allowPublicKeyRetrieval=true
+DB_USERNAME=PANEL_DB_USERNAME
+DB_PASSWORD=REEMPLAZAR_CON_CONTRASENA_DE_BASE_DE_DATOS
+
+# Keep this empty when the bundled React interface and API use the same address.
+# Example only for a separate UI origin: https://blueberrytrace.example.com
+CORS_ALLOWED_ORIGINS=
+ALLOWED_EMAIL_DOMAINS=vlv.agro.pe
+
+# The Pterodactyl startup command normally injects SERVER_PORT. Do not hardcode
+# the allocation port here unless the Egg explicitly requires it.
+SERVER_PORT=8080
+APP_LOG_LEVEL=INFO
+SESSION_TIMEOUT=8h
+
+# Direct IP:port access is HTTP. Once a domain with HTTPS reverse proxy exists,
+# set both values to true/strict before using the system with real credentials.
+COOKIE_SECURE=false
+COOKIE_SAME_SITE=lax
+
+# Flyway creates and evolves the schema. Never replace it with ddl-auto=update in production.
+FLYWAY_ENABLED=true
+
+# Enable only for the first controlled start against an empty database, then set
+# it to false and remove the password from this external file.
+BLUEBERRYTRACE_BOOTSTRAP_ADMIN_ENABLED=false
+BLUEBERRYTRACE_BOOTSTRAP_ADMIN_USERNAME=
+BLUEBERRYTRACE_BOOTSTRAP_ADMIN_EMAIL=
+BLUEBERRYTRACE_BOOTSTRAP_ADMIN_PASSWORD=
+BLUEBERRYTRACE_BOOTSTRAP_ADMIN_FULL_NAME=
+BLUEBERRYTRACE_BOOTSTRAP_ADMIN_POSITION=

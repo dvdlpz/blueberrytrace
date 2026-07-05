@@ -1,0 +1,12 @@
+# Build outputs
+target/
+
+# IDE
+.idea/
+*.iml
+
+# Maven wrapper binary cache
+.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+*.log

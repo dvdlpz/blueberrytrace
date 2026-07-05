@@ -1,0 +1,21 @@
+# Source-control and local state
+.git/
+.gitignore
+.env
+.env.*
+!.env.example
+
+# Build/dependency outputs
+node_modules/
+frontend/node_modules/
+frontend/dist/
+backend/target/
+*.tsbuildinfo
+
+# IDE / logs / backups
+.idea/
+*.iml
+*.log
+backups/
+certbot/
+docs/apf3/evidencias/

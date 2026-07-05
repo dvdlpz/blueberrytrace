@@ -1,0 +1,41 @@
+{
+  "name": "blueberrytrace-workspace",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Workspace principal de BlueberryTrace con backend Spring Boot y frontend React/Vite.",
+  "scripts": {
+    "frontend:dev": "npm --prefix frontend run dev",
+    "frontend:build": "npm --prefix frontend run build",
+    "frontend:preview": "npm --prefix frontend run preview",
+    "backend:run": "bash scripts/run-backend.sh",
+    "backend:test": "bash scripts/maven.sh -pl backend test",
+    "backend:package": "bash scripts/maven.sh -pl backend clean package",
+    "backend:run:alt": "SERVER_PORT=8081 bash scripts/run-backend.sh",
+    "dev": "npm run backend:run",
+    "dev:frontend": "npm run frontend:dev",
+    "backend:port": "bash scripts/check-backend-port.sh",
+    "backend:kill": "bash scripts/kill-backend-port.sh",
+    "setup:permissions": "bash scripts/setup-permissions.sh",
+    "doctor": "bash scripts/doctor.sh",
+    "dev:full": "npm run setup:permissions && npm run backend:run",
+    "maven": "bash scripts/maven.sh",
+    "backend:api": "bash scripts/run-backend.sh",
+    "apf3:evidence": "bash scripts/apf3-evidence.sh",
+    "test": "npm run frontend:build && npm run backend:test",
+    "deploy:preflight": "bash scripts/preflight-vps.sh",
+    "preflight:pterodactyl": "bash scripts/preflight-pterodactyl.sh",
+    "package:pterodactyl": "bash scripts/build-pterodactyl.sh",
+    "docker:config": "docker compose --env-file .env config",
+    "docker:up": "docker compose --env-file .env up -d --build",
+    "docker:down": "docker compose --env-file .env down",
+    "docker:logs": "docker compose --env-file .env logs -f --tail=200",
+    "docker:restart": "docker compose --env-file .env restart",
+    "backup:db": "bash scripts/backup-db.sh",
+    "restore:db": "bash scripts/restore-db.sh",
+    "build": "npm run frontend:build",
+    "db:migrate": "bash scripts/migrate-db.sh"
+  },
+  "workspaces": [
+    "frontend"
+  ]
+}
